@@ -1,0 +1,37 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    io.kompose.service: visits-service
+  name: visits-service
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      io.kompose.service: visits-service
+  template:
+    metadata:
+      labels:
+        io.kompose.service: visits-service
+    spec:
+      containers:
+      - command:
+        - ./dockerize
+        - -wait=tcp://discovery-server:8761
+        - -timeout=60s
+        - --
+        - java
+        - -XX:+UnlockExperimentalVMOptions
+        - -XX:+UseCGroupMemoryLimitForHeap
+        - -Djava.security.egd=file:/dev/./urandom
+        - -jar
+        - /app.jar
+        image: spring-petclinic-visits-service
+        name: visits-service
+        ports:
+        - containerPort: 8082
+        resources:
+          limits:
+            memory: "536870912"
+      restartPolicy: Always
+

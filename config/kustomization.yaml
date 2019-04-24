@@ -1,0 +1,66 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+commonLabels:
+  'app.kubernetes.io/name': 'petclinic'
+  'app.kubernetes.io/instance': 'petclinic-prod'
+
+commonAnnotations:
+  'app.kubernetes.io/version': 'v0.4'
+
+resources:
+  - admin-server-deployment.yaml
+  - admin-server-service.yaml
+  - api-gateway-deployment.yaml
+  - api-gateway-service.yaml
+  - config-server-deployment.yaml
+  - config-server-service.yaml
+  - customers-service-deployment.yaml
+  - customers-service-service.yaml
+  - discovery-server-deployment.yaml
+  - discovery-server-service.yaml
+  - grafana-server-deployment.yaml
+  - grafana-server-service.yaml
+  - hystrix-dashboard-deployment.yaml
+  - hystrix-dashboard-service.yaml
+  - prometheus-server-deployment.yaml
+  - prometheus-server-service.yaml
+  - tracing-server-deployment.yaml
+  - tracing-server-service.yaml
+  - vets-service-deployment.yaml
+  - vets-service-service.yaml
+  - visits-service-deployment.yaml
+  - visits-service-service.yaml
+
+images:
+  - name: spring-petclinic-admin-server
+    newTag: v0.4
+    newName: gcr.io/protokit-238521/spring-petclinic-admin-server
+  - name: spring-petclinic-api-gateway
+    newTag: v0.4
+    newName: gcr.io/protokit-238521/spring-petclinic-api-gateway
+  - name: spring-petclinic-config-server
+    newTag: v0.4
+    newName: gcr.io/protokit-238521/spring-petclinic-config-server
+  - name: spring-petclinic-customers-service
+    newTag: v0.4
+    newName: gcr.io/protokit-238521/spring-petclinic-customers-service
+  - name: spring-petclinic-discovery-server
+    newTag: v0.4
+    newName: gcr.io/protokit-238521/spring-petclinic-discovery-server
+  - name: spring-petclinic-hystrix-dashboard
+    newTag: v0.4
+    newName: gcr.io/protokit-238521/spring-petclinic-hystrix-dashboard
+  - name: spring-petclinic-vets-service
+    newTag: v0.4
+    newName: gcr.io/protokit-238521/spring-petclinic-vets-service
+  - name: spring-petclinic-visits-service
+    newTag: v0.4
+    newName: gcr.io/protokit-238521/spring-petclinic-visits-service
+  - name: grafana-server
+    newTag: v0.4
+    newName: gcr.io/protokit-238521/grafana
+  - name: prometheus-server
+    newTag: v0.4
+    newName: gcr.io/protokit-238521/prometheus
+
