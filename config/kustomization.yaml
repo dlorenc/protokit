@@ -19,12 +19,12 @@ resources:
   - customers-service/customers-service-service.yaml
   - discovery-server/discovery-server-deployment.yaml
   - discovery-server/discovery-server-service.yaml
-  - grafana-server/grafana-server-deployment.yaml
-  - grafana-server/grafana-server-service.yaml
-  - hystrix-dashboard/hystrix-dashboard-deployment.yaml
-  - hystrix-dashboard/hystrix-dashboard-service.yaml
-  - prometheus-server/prometheus-server-deployment.yaml
-  - prometheus-server/prometheus-server-service.yaml
+  - grafana/grafana-server-deployment.yaml
+  - grafana/grafana-server-service.yaml
+  - hystrix/hystrix-dashboard-deployment.yaml
+  - hystrix/hystrix-dashboard-service.yaml
+  - prometheus/prometheus-server-deployment.yaml
+  - prometheus/prometheus-server-service.yaml
   - tracing-server/tracing-server-deployment.yaml
   - tracing-server/tracing-server-service.yaml
   - vets-service/vets-service-deployment.yaml
