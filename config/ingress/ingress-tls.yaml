@@ -30,7 +30,7 @@ spec:
       paths:
       - path: /
         backend:
-          serviceName: helloweb-backend
+          serviceName: api-gateway
           servicePort: 8080
   tls:
   - secretName: www-opskit-dev-tls
