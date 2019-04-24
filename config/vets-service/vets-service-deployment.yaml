@@ -26,6 +26,7 @@ spec:
         - -Djava.security.egd=file:/dev/./urandom
         - -jar
         - /app.jar
+        - -Dspring.profiles.active=docker
         image: spring-petclinic-vets-service
         name: vets-service
         ports:
