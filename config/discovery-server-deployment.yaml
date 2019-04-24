@@ -1,0 +1,37 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    io.kompose.service: discovery-server
+  name: discovery-server
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      io.kompose.service: discovery-server
+  template:
+    metadata:
+      labels:
+        io.kompose.service: discovery-server
+    spec:
+      containers:
+      - command:
+        - ./dockerize
+        - -wait=tcp://config-server:8888
+        - -timeout=60s
+        - --
+        - java
+        - -XX:+UnlockExperimentalVMOptions
+        - -XX:+UseCGroupMemoryLimitForHeap
+        - -Djava.security.egd=file:/dev/./urandom
+        - -jar
+        - /app.jar
+        image: spring-petclinic-discovery-server
+        name: discovery-server
+        ports:
+        - containerPort: 8761
+        resources:
+          limits:
+            memory: "536870912"
+      restartPolicy: Always
+

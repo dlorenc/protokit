@@ -1,0 +1,25 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    io.kompose.service: config-server
+  name: config-server
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      io.kompose.service: config-server
+  template:
+    metadata:
+      labels:
+        io.kompose.service: config-server
+    spec:
+      containers:
+      - image: spring-petclinic-config-server
+        name: config-server
+        ports:
+        - containerPort: 8888
+        resources:
+          limits:
+            memory: "536870912"
+      restartPolicy: Always

@@ -1,0 +1,26 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    io.kompose.service: grafana-server
+  name: grafana-server
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      io.kompose.service: grafana-server
+  template:
+    metadata:
+      labels:
+        io.kompose.service: grafana-server
+    spec:
+      containers:
+      - image: grafana-server
+        name: grafana-server
+        ports:
+        - containerPort: 3000
+        resources:
+          limits:
+            memory: "268435456"
+      restartPolicy: Always
+
