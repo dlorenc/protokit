@@ -51,6 +51,13 @@ spec:
               name: spring-config
           - secretRef:
               name: spring-secret-config
+        readinessProbe:
+          httpGet:
+            path: '/'
+            port: 8761
+          initialDelaySeconds: 30
+          timeoutSeconds: 1
+          periodSeconds: 5
         image: spring-petclinic-discovery-server
         name: discovery-server
         ports:
