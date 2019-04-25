@@ -22,5 +22,13 @@ namespace: 'dev-petclinic'
 resources:
   - namespace.yaml
 
+patchesJson6902:
+  - target:
+      group: extensions
+      version: v1beta1
+      kind: Ingress
+      name: opskit
+    path: ingress_patch.yaml
+
 bases:
   - ../bases/

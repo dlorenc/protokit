@@ -25,14 +25,11 @@ metadata:
     app: hello
 spec:
   rules:
-    - host: www.opskit.dev
-      http:
+    - http:
         paths:
           - path: /
             backend:
               serviceName: api-gateway
               servicePort: 8080
   tls:
-    - secretName: www-opskit-dev-tls
-      hosts:
-        - www.opskit.dev
+    - hosts:
