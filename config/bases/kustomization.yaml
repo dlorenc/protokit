@@ -46,6 +46,8 @@ resources:
   - grafana/grafana-server-service.yaml
   - hystrix/hystrix-dashboard-deployment.yaml
   - hystrix/hystrix-dashboard-service.yaml
+  - ingress/ingress-tls.yaml
+  - ingress/issuer.yaml
   - prometheus/prometheus-server-deployment.yaml
   - prometheus/prometheus-server-service.yaml
   - tracing-server/tracing-server-deployment.yaml
