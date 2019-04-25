@@ -42,7 +42,8 @@ spec:
         - -XX:+UnlockExperimentalVMOptions
         - -XX:+UseCGroupMemoryLimitForHeap
         - -Djava.security.egd=file:/dev/./urandom
-        - -Deureka.client.serviceUrl.defaultZone=http://$(DISCOVERY_STATEFULSET_NAME)-0.$(DISCOVERY_INSTANCE_NAME):8761/eureka/,http://$(DISCOVERY_STATEFULSET_NAME)-1.$(DISCOVERY_INSTANCE_NAME):8761/eureka/
+        - -Deureka.environment=prod
+        - -Deureka.client.serviceUrl.defaultZone=http://$(DISCOVERY_SERVER_NAME):8761/eureka/
         - -Deureka.instance.registryFetchIntervalSeconds=1
         - -Deureka.instance.leaseRenewalIntervalInSeconds=5
         - -Deureka.instance.leaseExpirationDurationInSeconds=5

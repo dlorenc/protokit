@@ -35,6 +35,9 @@ spec:
       containers:
       - image: spring-petclinic-config-server
         name: config-server
+#        env:
+#        - name: _JAVA_OPTIONS
+#          value: -Dspring.cloud.config.server.git.uri=''
         ports:
         - containerPort: 8888
         resources:
