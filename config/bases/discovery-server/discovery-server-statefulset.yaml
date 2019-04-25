@@ -1,0 +1,77 @@
+# Copyright 2018 Google Inc.
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     https://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  labels:
+    'app.kubernetes.io/component': discovery-server
+    'app.kubernetes.io/instance': eureka
+  name: discovery-server
+spec:
+  serviceName: "discovery-server"
+  replicas: 2
+  selector:
+    matchLabels:
+      'app.kubernetes.io/component': discovery-server
+      'app.kubernetes.io/instance': eureka
+  template:
+    metadata:
+      labels:
+        'app.kubernetes.io/component': discovery-server
+        'app.kubernetes.io/instance': eureka
+    spec:
+      terminationGracePeriodSeconds: 10
+      containers:
+        - command:
+            - ./dockerize
+            - -wait=tcp://$(CONFIG_SERVER_NAME):8888
+            - -timeout=60s
+            - --
+            - java
+            - -XX:+UnlockExperimentalVMOptions
+            - -XX:+UseCGroupMemoryLimitForHeap
+            - -Djava.security.egd=file:/dev/./urandom
+            - -Deureka.instance.hostname=$(DISCOVERY_SERVER_NAME)
+            - -Dspring.cloud.config.uri=http://$(CONFIG_SERVER_NAME):8888
+            - -jar
+            - /app.jar
+          envFrom:
+            - configMapRef:
+                name: spring-config
+            - secretRef:
+                name: spring-secret
+          readinessProbe:
+            httpGet:
+              path: '/'
+              port: 8761
+            initialDelaySeconds: 30
+            timeoutSeconds: 1
+            periodSeconds: 5
+          image: spring-petclinic-discovery-server
+          name: discovery-server
+          ports:
+            - containerPort: 8761
+          resources:
+            limits:
+              memory: "536870912"
+      restartPolicy: Always
+  volumeClaimTemplates:
+    - metadata:
+        name: mysql
+      spec:
+        accessModes: [ "ReadWriteOnce" ]
+        resources:
+          requests:
+            storage: 20Gi
+

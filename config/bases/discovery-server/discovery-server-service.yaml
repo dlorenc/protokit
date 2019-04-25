@@ -15,7 +15,8 @@ apiVersion: v1
 kind: Service
 metadata:
   labels:
-    io.kompose.service: discovery-server
+    'app.kubernetes.io/component': discovery-server
+    'app.kubernetes.io/instance': eureka
   name: discovery-server
 spec:
   ports:
@@ -23,4 +24,5 @@ spec:
     port: 8761
     targetPort: 8761
   selector:
-    io.kompose.service: discovery-server
+    'app.kubernetes.io/component': discovery-server
+    'app.kubernetes.io/instance': eureka

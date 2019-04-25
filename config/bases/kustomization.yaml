@@ -18,6 +18,8 @@ namespace: petclinic
 
 commonLabels:
   'app.kubernetes.io/name': 'petclinic'
+  # 'app.kubernetes.io/managed-by': `apply`
+  # 'app.kubernetes.io/part-of': `petclinic`
 
 commonAnnotations:
   'app.kubernetes.io/version': 'v0.6'
@@ -39,7 +41,7 @@ resources:
   - config-server/config-server-service.yaml
   - customers-service/customers-service-deployment.yaml
   - customers-service/customers-service-service.yaml
-  - discovery-server/discovery-server-deployment.yaml
+  - discovery-server/discovery-server-statefulset.yaml
   - discovery-server/discovery-server-service.yaml
   - grafana/grafana-server-deployment.yaml
   - grafana/grafana-server-service.yaml
