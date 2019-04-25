@@ -20,7 +20,7 @@ metadata:
   name: discovery-server
 spec:
   serviceName: "discovery-instance"
-  replicas: 2
+  replicas: 1
   selector:
     matchLabels:
       'app.kubernetes.io/component': discovery-server
@@ -52,7 +52,7 @@ spec:
                   fieldPath: metadata.name
               # Due to camelcase issues with "defaultZone" and "preferIpAddress", _JAVA_OPTIONS is used here
             - name: _JAVA_OPTIONS
-              value: -Deureka.instance.preferIpAddress=false -Deureka.client.serviceUrl.defaultZone=http://$(DISCOVERY_STATEFULSET_NAME)-0.$(DISCOVERY_INSTANCE_NAME):8761/eureka/,http://$(DISCOVERY_STATEFULSET_NAME)-1.$(DISCOVERY_INSTANCE_NAME):8761/eureka/
+              value: -Deureka.instance.preferIpAddress=false -Deureka.client.serviceUrl.defaultZone=http://$(DISCOVERY_STATEFULSET_NAME)-0.$(DISCOVERY_INSTANCE_NAME):8761/eureka/
             - name: EUREKA_CLIENT_REGISTERWITHEUREKA
               value: "true"
             - name: EUREKA_CLIENT_FETCHREGISTRY
