@@ -19,7 +19,7 @@ metadata:
     'app.kubernetes.io/instance': eureka
   name: discovery-server
 spec:
-  serviceName: "discovery-server"
+  serviceName: "discovery-instance"
   replicas: 2
   selector:
     matchLabels:
@@ -42,10 +42,24 @@ spec:
             - -XX:+UnlockExperimentalVMOptions
             - -XX:+UseCGroupMemoryLimitForHeap
             - -Djava.security.egd=file:/dev/./urandom
-            - -Deureka.instance.hostname=$(DISCOVERY_SERVER_NAME)
             - -Dspring.cloud.config.uri=http://$(CONFIG_SERVER_NAME):8888
             - -jar
             - /app.jar
+          env:
+            - name: POD_NAME
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.name
+              # Due to camelcase issues with "defaultZone" and "preferIpAddress", _JAVA_OPTIONS is used here
+            - name: _JAVA_OPTIONS
+              value: -Deureka.instance.preferIpAddress=false -Deureka.client.serviceUrl.defaultZone=http://$(DISCOVERY_STATEFULSET_NAME)-0.$(DISCOVERY_INSTANCE_NAME):8761/eureka/,http://$(DISCOVERY_STATEFULSET_NAME)-1.$(DISCOVERY_INSTANCE_NAME):8761/eureka/
+            - name: EUREKA_CLIENT_REGISTERWITHEUREKA
+              value: "true"
+            - name: EUREKA_CLIENT_FETCHREGISTRY
+              value: "true"
+            # The hostnames must match with the the eureka serviceUrls, otherwise the replicas are reported as unavailable in the eureka dashboard
+            - name: EUREKA_INSTANCE_HOSTNAME
+              value: ${POD_NAME}.$(DISCOVERY_INSTANCE_NAME)
           envFrom:
             - configMapRef:
                 name: spring-config
@@ -55,7 +69,7 @@ spec:
             httpGet:
               path: '/'
               port: 8761
-            initialDelaySeconds: 30
+            initialDelaySeconds: 10
             timeoutSeconds: 1
             periodSeconds: 5
           image: spring-petclinic-discovery-server

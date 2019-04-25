@@ -42,6 +42,10 @@ spec:
         - -XX:+UnlockExperimentalVMOptions
         - -XX:+UseCGroupMemoryLimitForHeap
         - -Djava.security.egd=file:/dev/./urandom
+        - -Deureka.client.serviceUrl.defaultZone=http://$(DISCOVERY_STATEFULSET_NAME)-0.$(DISCOVERY_INSTANCE_NAME):8761/eureka/,http://$(DISCOVERY_STATEFULSET_NAME)-1.$(DISCOVERY_INSTANCE_NAME):8761/eureka/
+        - -Deureka.instance.registryFetchIntervalSeconds=1
+        - -Deureka.instance.leaseRenewalIntervalInSeconds=5
+        - -Deureka.instance.leaseExpirationDurationInSeconds=5
         - -Deureka.instance.hostname=$(VISITS_SERVICE_NAME)
         - -Dspring.cloud.config.uri=http://$(CONFIG_SERVER_NAME):8888
         - -jar

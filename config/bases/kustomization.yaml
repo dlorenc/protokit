@@ -22,7 +22,7 @@ commonLabels:
   # 'app.kubernetes.io/part-of': `petclinic`
 
 commonAnnotations:
-  'app.kubernetes.io/version': 'v0.6'
+  'app.kubernetes.io/version': 'v0.8'
 
 configMapGenerator:
   - name: spring-config
@@ -61,34 +61,34 @@ resources:
 
 images:
   - name: spring-petclinic-admin-server
-    newTag: v0.6
+    newTag: v0.8
     newName: gcr.io/protokit-238521/spring-petclinic-admin-server
   - name: spring-petclinic-api-gateway
-    newTag: v0.6
+    newTag: v0.8
     newName: gcr.io/protokit-238521/spring-petclinic-api-gateway
   - name: spring-petclinic-config-server
-    newTag: v0.6
+    newTag: v0.8
     newName: gcr.io/protokit-238521/spring-petclinic-config-server
   - name: spring-petclinic-customers-service
-    newTag: v0.6
+    newTag: v0.8
     newName: gcr.io/protokit-238521/spring-petclinic-customers-service
   - name: spring-petclinic-discovery-server
     newTag: v0.7
     newName: gcr.io/protokit-238521/spring-petclinic-discovery-server
   - name: spring-petclinic-hystrix-dashboard
-    newTag: v0.6
+    newTag: v0.8
     newName: gcr.io/protokit-238521/spring-petclinic-hystrix-dashboard
   - name: spring-petclinic-vets-service
-    newTag: v0.6
+    newTag: v0.8
     newName: gcr.io/protokit-238521/spring-petclinic-vets-service
   - name: spring-petclinic-visits-service
-    newTag: v0.6
+    newTag: v0.8
     newName: gcr.io/protokit-238521/spring-petclinic-visits-service
   - name: grafana-server
-    newTag: v0.6
+    newTag: v0.8
     newName: gcr.io/protokit-238521/grafana
   - name: prometheus-server
-    newTag: v0.6
+    newTag: v0.8
     newName: gcr.io/protokit-238521/prometheus
 
 vars:
@@ -117,6 +117,16 @@ vars:
       kind: Service
       name: discovery-server
       apiVersion: v1
+  - name: DISCOVERY_INSTANCE_NAME
+    objref:
+      kind: Service
+      name: discovery-instance
+      apiVersion: v1
+  - name: DISCOVERY_STATEFULSET_NAME
+    objref:
+      kind: StatefulSet
+      name: discovery-server
+      apiVersion: apps/v1
   - name: HYSTRIX_DASHBOARD_NAME
     objref:
       kind: Service
