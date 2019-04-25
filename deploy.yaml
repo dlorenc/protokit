@@ -1,0 +1,4 @@
+
+apply:
+  - type: kustomize
+    path: config/staging
