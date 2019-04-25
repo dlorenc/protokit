@@ -1,0 +1,9 @@
+- op: add
+  path: /spec/rules/0/host
+  value: dev.opskit.dev
+- op: add
+  path: /spec/tls/0/hosts
+  value: dev.opskit.dev
+- op: add
+  path: /spec/tls/0/secretName
+  value: dev-opskit-dev-tls

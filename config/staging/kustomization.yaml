@@ -38,3 +38,11 @@ secretGenerator:
   - name: mysql-secret
     env: mysql-secret.env
     behavior: replace
+
+patchesJson6902:
+  - target:
+      group: extensions
+      version: v1beta1
+      kind: Ingress
+      name: opskit
+    path: ingress_patch.yaml
