@@ -50,7 +50,13 @@ spec:
           - configMapRef:
               name: spring-config
           - secretRef:
-              name: spring-secret-config
+              name: spring-secret
+        readinessProbe:
+          httpGet:
+            path: '/'
+            port: 8080
+          initialDelaySeconds: 30
+          timeoutSeconds: 1
         image: spring-petclinic-api-gateway
         name: api-gateway
         ports:

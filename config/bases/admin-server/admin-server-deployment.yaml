@@ -45,7 +45,7 @@ spec:
           - configMapRef:
               name: spring-config
           - secretRef:
-              name: spring-secret-config
+              name: spring-secret
         image: spring-petclinic-admin-server
         name: admin-server
         ports:
