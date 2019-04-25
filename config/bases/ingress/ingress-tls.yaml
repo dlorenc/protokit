@@ -33,3 +33,4 @@ spec:
               servicePort: 8080
   tls:
     - hosts:
+      - replaceme

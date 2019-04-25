@@ -2,7 +2,7 @@
   path: /spec/rules/0/host
   value: dev.opskit.dev
 - op: add
-  path: /spec/tls/0/hosts
+  path: /spec/tls/0/hosts/0
   value: dev.opskit.dev
 - op: add
   path: /spec/tls/0/secretName

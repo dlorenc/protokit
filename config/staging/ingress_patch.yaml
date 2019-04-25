@@ -1,8 +1,8 @@
 - op: add
   path: /spec/rules/0/host
   value: staging.opskit.dev
-- op: add
-  path: /spec/tls/0/hosts
+- op: replace
+  path: /spec/tls/0/hosts/0
   value: staging.opskit.dev
 - op: add
   path: /spec/tls/0/secretName
