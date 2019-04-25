@@ -6,6 +6,11 @@ metadata:
   name: visits-service
 spec:
   replicas: 1
+  minReadySeconds: 30
+  strategy:
+    rollingUpdate:
+      maxUnavailable: 0
+      maxSurge: 25%
   selector:
     matchLabels:
       io.kompose.service: visits-service
@@ -24,9 +29,11 @@ spec:
         - -XX:+UnlockExperimentalVMOptions
         - -XX:+UseCGroupMemoryLimitForHeap
         - -Djava.security.egd=file:/dev/./urandom
+        - -Dspring.profiles.active=docker
+#        - -Deureka.instance.preferIpAddress=true
+        - -Deureka.instance.hostname=visits-service
         - -jar
         - /app.jar
-        - -Dspring.profiles.active=docker
         image: spring-petclinic-visits-service
         name: visits-service
         ports:
