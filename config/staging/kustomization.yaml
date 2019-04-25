@@ -21,18 +21,20 @@ namespace: 'staging-petclinic'
 
 bases:
   - ../bases/
+  - ../bases/mysql
 
 resources:
   - namespace.yaml
 
 configMapGenerator:
   - name: spring-config
-    literals:
-      - SPRING_PROFILES_ACTIVE=docker,mysql
-      - SPRING_DATASOURCE_URL=jdbc:mysql://mysql:3306/?useSSL=false
+    env: spring-config.env
     behavior: merge
 
 secretGenerator:
-  - name: spring-secret-config
+  - name: spring-secret
     env: spring-secret.env
+    behavior: replace
+  - name: mysql-secret
+    env: mysql-secret.env
     behavior: replace

@@ -24,11 +24,10 @@ commonAnnotations:
 
 configMapGenerator:
   - name: spring-config
-    literals:
-      - SPRING_PROFILES_ACTIVE=docker
+    env: spring-config.env
 
 secretGenerator:
-  - name: spring-secret-config
+  - name: spring-secret
     env: spring-secret.env
 
 resources:
