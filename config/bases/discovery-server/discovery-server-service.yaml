@@ -11,11 +11,15 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
+
+# This Service is for loadbalancing to the discovery servers
+# This is used by other services for consuming and registering with the discovery service
 apiVersion: v1
 kind: Service
 metadata:
   labels:
-    io.kompose.service: discovery-server
+    'app.kubernetes.io/component': discovery-server
+    'app.kubernetes.io/instance': eureka
   name: discovery-server
 spec:
   ports:
@@ -23,4 +27,24 @@ spec:
     port: 8761
     targetPort: 8761
   selector:
-    io.kompose.service: discovery-server
+    'app.kubernetes.io/component': discovery-server
+    'app.kubernetes.io/instance': eureka
+---
+# This Service is to provide each discovery server instance with its own dns entry
+# This is used by the discovery servers for HA in the eureka.client.serviceUrl.defaultZone property
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    'app.kubernetes.io/component': discovery-server
+    'app.kubernetes.io/instance': eureka
+  name: discovery-instance
+spec:
+  clusterIP: None
+  ports:
+    - name: "8761"
+      port: 8761
+      targetPort: 8761
+  selector:
+    'app.kubernetes.io/component': discovery-server
+    'app.kubernetes.io/instance': eureka
