@@ -20,6 +20,7 @@ metadata:
   name: discovery-server
 spec:
   serviceName: "discovery-instance"
+  podManagementPolicy: Parallel
   replicas: 1
   selector:
     matchLabels:
@@ -50,16 +51,8 @@ spec:
               valueFrom:
                 fieldRef:
                   fieldPath: metadata.name
-              # Due to camelcase issues with "defaultZone" and "preferIpAddress", _JAVA_OPTIONS is used here
-            - name: _JAVA_OPTIONS
-              value: -Deureka.instance.preferIpAddress=false -Deureka.client.serviceUrl.defaultZone=http://$(DISCOVERY_STATEFULSET_NAME)-0.$(DISCOVERY_INSTANCE_NAME):8761/eureka/
-            - name: EUREKA_CLIENT_REGISTERWITHEUREKA
-              value: "true"
-            - name: EUREKA_CLIENT_FETCHREGISTRY
-              value: "true"
-            # The hostnames must match with the the eureka serviceUrls, otherwise the replicas are reported as unavailable in the eureka dashboard
-            - name: EUREKA_INSTANCE_HOSTNAME
-              value: ${POD_NAME}.$(DISCOVERY_INSTANCE_NAME)
+            - name: SPRING_PROFILES_ACTIVE
+              value: docker,${POD_NAME}
           envFrom:
             - configMapRef:
                 name: spring-config
