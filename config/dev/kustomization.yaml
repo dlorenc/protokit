@@ -22,6 +22,11 @@ namespace: 'dev-petclinic'
 resources:
   - namespace.yaml
 
+configMapGenerator:
+  - name: spring-config
+    env: spring-config.env
+    behavior: merge
+
 patchesJson6902:
   - target:
       group: extensions
