@@ -1,0 +1,10 @@
+steps:
+  - name: 'gcr.io/cloud-builders/gcloud'
+    args: ['container', 'clusters', 'get-credentials', 'petclinic', '--zone=us-west2-b']
+    env:
+    - 'KUBECONFIG=/workspace/.kubeconfig'
+  - name: gcr.io/protokit-238521/deployer:latest
+    entrypoint: /bin/bash
+    args: ['./kustomize-wrapper.sh', 'kubectl', 'apply', '-k', 'config/${_ENV}/']
+    env:
+    - 'KUBECONFIG=/workspace/.kubeconfig'
