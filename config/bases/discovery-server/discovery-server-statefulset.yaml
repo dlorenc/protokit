@@ -46,7 +46,7 @@ spec:
               export EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=""
               for i in $(seq 0 $(expr $REPLICAS - 1));
               do
-                  EUREKA_CLIENT_SERVICEURL_DEFAULTZONE="http://discovery-server-$i.discovery-instance:8761/eureka/,$EUREKA_CLIENT_SERVICEURL_DEFAULTZONE"
+                  EUREKA_CLIENT_SERVICEURL_DEFAULTZONE="http://$(DISCOVERY_STATEFULSET_NAME)-$i.$(DISCOVERY_INSTANCE_NAME):8761/eureka/,$EUREKA_CLIENT_SERVICEURL_DEFAULTZONE"
               done
               EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=$(echo $EUREKA_CLIENT_SERVICEURL_DEFAULTZONE | sed 's/,$//')
 
