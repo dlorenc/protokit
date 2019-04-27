@@ -35,8 +35,6 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  annotations:
-    service.alpha.kubernetes.io/tolerate-unready-endpoints: "true"
   labels:
     'app.kubernetes.io/component': discovery-server
     'app.kubernetes.io/instance': eureka
