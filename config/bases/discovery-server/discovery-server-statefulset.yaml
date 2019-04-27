@@ -21,7 +21,7 @@ metadata:
 spec:
   serviceName: "discovery-instance"
   podManagementPolicy: Parallel
-  replicas: 2
+  replicas: 3 # Update annotation
   selector:
     matchLabels:
       'app.kubernetes.io/component': discovery-server
@@ -31,30 +31,41 @@ spec:
       labels:
         'app.kubernetes.io/component': discovery-server
         'app.kubernetes.io/instance': eureka
+      annotations:
+        replicas: '3' # For the downward API
     spec:
       terminationGracePeriodSeconds: 10
       containers:
-        - command:
-            - ./dockerize
-            - -wait=tcp://$(CONFIG_SERVER_NAME):8888
-            - -timeout=60s
-            - --
-            - java
-            - -XX:+UnlockExperimentalVMOptions
-            - -XX:+UseCGroupMemoryLimitForHeap
-            - -Djava.security.egd=file:/dev/./urandom
-            - -Deureka.instance.hostname=$(POD_NAME).$(DISCOVERY_INSTANCE_NAME)
-            - -Deureka.client.serviceUrl.defaultZone=http://$(DISCOVERY_STATEFULSET_NAME)-0.$(DISCOVERY_INSTANCE_NAME):8761/eureka/,http://$(DISCOVERY_STATEFULSET_NAME)-1.$(DISCOVERY_INSTANCE_NAME):8761/eureka/
-            - -Dspring.cloud.config.uri=http://$(CONFIG_SERVER_NAME):8888
-            - -jar
-            - /app.jar
+        - command: ['/bin/sh']
+          args:
+            - '-c'
+            - |
+              ./dockerize -wait=tcp://$(CONFIG_SERVER_NAME):8888 -timeout=60s -- echo "found config-service"
+
+              # Calculate the default zone based on the number of replicas
+              export EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=""
+              for i in $(seq 0 $(expr $REPLICAS - 1));
+              do
+                  EUREKA_CLIENT_SERVICEURL_DEFAULTZONE="http://discovery-server-$i.discovery-instance:8761/eureka/,$EUREKA_CLIENT_SERVICEURL_DEFAULTZONE"
+              done
+              EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=$(echo $EUREKA_CLIENT_SERVICEURL_DEFAULTZONE | sed 's/,$//')
+
+              # Calculate the hostname from the Pod and Server namnes
+              export EUREKA_INSTANCE_HOSTNAME="$(POD_NAME).$(DISCOVERY_INSTANCE_NAME)"
+
+              # Run the program
+              java -XX:+UnlockExperimentalVMOptions -XX:+UseCGroupMemoryLimitForHeap -Djava.security.egd=file:/dev/./urandom -jar /app.jar --server.port=8761 --eureka.client.serviceUrl.defaultZone=$EUREKA_CLIENT_SERVICEURL_DEFAULTZONE --eureka.instance.hostname=$EUREKA_INSTANCE_HOSTNAME --eureka.client.enableSelfPreservation=false --eureka.client.fetchRegistry=true --eureka.client.registerWithEureka=true
           env:
             - name: POD_NAME
               valueFrom:
                 fieldRef:
                   fieldPath: metadata.name
+            - name: REPLICAS
+              valueFrom:
+                fieldRef:
+                  fieldPath: "metadata.annotations['replicas']"
             - name: SPRING_PROFILES_ACTIVE
-              value: docker,${POD_NAME}
+              value: docker
           envFrom:
             - configMapRef:
                 name: spring-config
