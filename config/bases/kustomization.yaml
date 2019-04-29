@@ -60,34 +60,34 @@ resources:
 
 images:
   - name: spring-petclinic-admin-server
-    newTag: v0.15
+    newTag: v0.16
     newName: gcr.io/protokit-238521/spring-petclinic-admin-server
   - name: spring-petclinic-api-gateway
-    newTag: v0.15
+    newTag: v0.16
     newName: gcr.io/protokit-238521/spring-petclinic-api-gateway
   - name: spring-petclinic-config-server
-    newTag: v0.15
+    newTag: v0.16
     newName: gcr.io/protokit-238521/spring-petclinic-config-server
   - name: spring-petclinic-customers-service
-    newTag: v0.15
+    newTag: v0.16
     newName: gcr.io/protokit-238521/spring-petclinic-customers-service
   - name: spring-petclinic-discovery-server
-    newTag: v0.15
+    newTag: v0.16
     newName: gcr.io/protokit-238521/spring-petclinic-discovery-server
   - name: spring-petclinic-hystrix-dashboard
-    newTag: v0.15
+    newTag: v0.16
     newName: gcr.io/protokit-238521/spring-petclinic-hystrix-dashboard
   - name: spring-petclinic-vets-service
-    newTag: v0.15
+    newTag: v0.16
     newName: gcr.io/protokit-238521/spring-petclinic-vets-service
   - name: spring-petclinic-visits-service
-    newTag: v0.15
+    newTag: v0.16
     newName: gcr.io/protokit-238521/spring-petclinic-visits-service
   - name: grafana-server
-    newTag: v0.15
+    newTag: v0.16
     newName: gcr.io/protokit-238521/grafana
   - name: prometheus-server
-    newTag: v0.15
+    newTag: v0.16
     newName: gcr.io/protokit-238521/prometheus
 
 vars:
