@@ -50,7 +50,6 @@ spec:
         - -Deureka.instance.leaseExpirationDurationInSeconds=5
         - -Deureka.instance.hostname=$(CUSTOMERS_SERVICE_NAME)
         - -Dspring.cloud.config.uri=http://$(CONFIG_SERVER_NAME):8888
-        - -Dspring.datasource.url=jdbc:$(SPRING_DATASOURCE_URL)
         - -jar
         - /app.jar
         envFrom:
