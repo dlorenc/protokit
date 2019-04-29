@@ -51,6 +51,7 @@ spec:
         - -Deureka.instance.hostname=$(CUSTOMERS_SERVICE_NAME)
         - -Dspring.cloud.config.uri=http://$(CONFIG_SERVER_NAME):8888
         - -Dspring.datasource.url=$(SPRING_DATASOURCE_URL)
+        - -Dspring.datasource.platform=$(SPRING_DATASOURCE_PLATFORM)
         - -Dspring.cloud.config.allowOverride=true
         # We don't need to setup the DB schema
         - -Dspring.datasource.continue-on-error=true

@@ -30,6 +30,7 @@ configMapGenerator:
     literals:
       - SPRING_PROFILES_ACTIVE=docker,mysql
       - SPRING_DATASOURCE_URL=jdbc:mysql://mysql:3306/?useSSL=false
+      - SPRING_DATASOURCE_PLATFORM=mysql
     behavior: merge
 
 secretGenerator:
