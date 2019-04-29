@@ -54,7 +54,6 @@ spec:
         - -Dspring.datasource.platform=$(SPRING_DATASOURCE_PLATFORM)
         - -Dspring.cloud.config.allowOverride=true
         # We don't need to setup the DB schema
-        - -Dspring.datasource.continue-on-error=true
         - -jar
         - /app.jar
         envFrom:
