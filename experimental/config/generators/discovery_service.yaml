@@ -1,0 +1,26 @@
+apiVersion: springcloud.opskit.dev/v1beta1
+kind: SpringCloudDiscoveryService
+metadata:
+  labels:
+    'app.kubernetes.io/component': discovery-server
+    'app.kubernetes.io/instance': eureka
+  name: discovery-server
+generate:
+  replicas: 3
+  selector:
+    'app.kubernetes.io/component': discovery-server
+  template:
+    metadata:
+      labels:
+        'app.kubernetes.io/component': discovery-server
+    spec:
+      containers:
+        - name: discovery-server
+          image: spring-petclinic-discovery-server
+          resources:
+            limits:
+              memory: "536870912"
+  configMapEnvName: spring-config
+  secretEnvName: spring-secret
+  options:
+    spring.profiles.active: docker
